@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace WcfServ_CarlosHernandez
 {
@@ -13,27 +15,19 @@ namespace WcfServ_CarlosHernandez
     public interface IServ_Cmmoneycash
     {
 
+        [OperationContract]
+        string GetData(int value);
 
         [OperationContract]
-        Correspon ObtenerCorrespon(string Cor_Nombre, int Cor_ID);
+        List<Correponsales> GetCorresponsales();
+
         [OperationContract]
-        Oficinas ObtenerOficinas(string Ofi_nombre, int Ofi_ID);
+        List<Oficinas> GetOficinas();
 
         // TODO: agregue aquí sus operaciones de servicio
     }
 
-
-    [DataContract]
-    public class Correspon : CorresponRespuesta
-
-    {
-        [DataMember]
-        public string Cor_nombre { get; set; }
-        [DataMember]
-        public int Cor_ID { get; set; }
-
-    }
-
+   
     [DataContract]
     public class CorresponRespuesta
     {
@@ -41,17 +35,6 @@ namespace WcfServ_CarlosHernandez
         public string ErrorCorrespon { get; set; }
     }
 
-
-    [DataContract]
-
-    public class Oficinas : OficinaRespuesta
-    {
-        [DataMember]
-        public string Ofi_nombre { get; set; }
-        [DataMember]
-        public int Ofi_ID { get; set; }
-
-    }
 
     [DataContract]
 

@@ -62,9 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ServiceDataBase.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correponsales.cs" />
+    <Compile Include="Oficinas.cs" />
     <Compile Include="ServiceDataBase.svc.cs">
       <DependentUpon>ServiceDataBase.svc</DependentUpon>
     </Compile>
@@ -81,6 +85,9 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

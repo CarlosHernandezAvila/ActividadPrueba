@@ -5,7 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-
+using System.Data;
+using System.Data.SqlClient;
 namespace WcfServ_CarlosHernandez
 {
     // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "Service1" en el código, en svc y en el archivo de configuración.
@@ -14,54 +15,61 @@ namespace WcfServ_CarlosHernandez
     {
 
 
-        //public string GetData(int value)
-        //{
-        //    return string.Format("You entered: {0}", value);
-        //}
-
-        //public CompositeType GetDataUsingDataContract(CompositeType composite)
-        //{
-        //    if (composite == null)
-        //    {
-        //        throw new ArgumentNullException("composite");
-        //    }
-        //    if (composite.BoolValue)
-        //    {
-        //        composite.StringValue += "Suffix";
-        //    }
-        //    return composite;
-        //}
-        public Correspon ObtenerCorrespon(string Cor_Nombre, int Cor_ID)
+        public string GetData(int value)
         {
-            if (Cor_ID == 1)
+            return string.Format("You entered: {0}", value);
+        }
+
+        public List<Correponsales> GetCorresponsales()
+        {
+            using (SqlConnection cn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ConexionBD"].ToString()))
             {
-                return new Correspon();
-            }
-            else
-            {
-                return new Correspon() { ErrorCorrespon = "Erro al intetar Obtener la Informacion de la BD los Corresponsales" };
+                SqlCommand cmd = new SqlCommand("select cor_corresponsal_id, cor_nombre from cmmoneycash.dbo.CORRESPONSALES", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                List<Correponsales> Lista_Corresp = new List<Correponsales>();
+                Correponsales corresp;
+
+                while (dr.Read())
+                {
+                    corresp = new Correponsales();
+                    corresp.cor_corresponsal_id = Convert.ToInt32(dr[0]);
+                    corresp.cor_nombre = dr[1].ToString();
+                    Lista_Corresp.Add(corresp);
+
+                }
+                cn.Close();
+                return Lista_Corresp;
+
+
 
             }
         }
 
 
-        public Oficinas ObtenerOficinas(string Ofi_nombre, int Ofi_ID)
+        public List<Oficinas> GetOficinas()
         {
-            if (Ofi_ID == 1)
+            using (SqlConnection cn2 = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ConexionBD"].ToString()))
             {
-                return new Oficinas();
-            }
-            else
-            {
-                return new Oficinas() { ErrorOficina = "Erro al intetar Obtener la Informacion de la BD los Corresponsales" };
+                
+                SqlCommand cmd = new SqlCommand("select OFI_CORRESPONSAL_ID, OFI_NOMBRE from oficinas", cn2);
+                cn2.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                List<Oficinas> Lista_Oficina = new List<Oficinas>();
+                Oficinas oficinas;
+
+                while (dr.Read())
+                {
+                    oficinas = new Oficinas();
+                    oficinas.Ofi_Corresponsal_id = Convert.ToInt32(dr[0]);
+                    oficinas.Ofi_Nombre = dr[1].ToString();
+                    Lista_Oficina.Add(oficinas);
+
+                }
+                cn2.Close();
+                return Lista_Oficina;
             }
         }
-
-        public Oficinas ObtenerOficinas(string Ofi_nombre)
-        {
-            throw new NotImplementedException();
-        }
-
 
 
     }
